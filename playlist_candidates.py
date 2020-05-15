@@ -1,5 +1,6 @@
 import spotify_query as spq
 import copy
+import numpy as np
 
 requester = spq.requester()
 
@@ -20,7 +21,15 @@ ranged_feature_dict = {
 id_2012 = '1t4NkaqXYRl8g5FTNBUVgG'                  # spotify playlist id for 2012 (the vibe playlist hahah)
 quasi_id = '17bwhvUEbRFXvcCVbd4nXK'                 # spotify playlist id for quasi (the big data dump playlist)
 
-trax_2012 = []                                      # ids for tracks already in 2012
+feature_data_2012, trax_2012 = requester.get_playlist_features_data(id_2012)    # feature data and ids for tracks already in 2012
+
+for key in feature_data_2012:
+    if key is not 'mode':
+        key_mean = np.mean(feature_data_2012[key])
+        key_stdev = np.std(feature_data_2012[key])
+        ranged_feature_dict[key] = (key_mean - key_stdev, key_mean + key_stdev)
+
+print(ranged_feature_dict)
 
 lis_2012 = requester.spotify.playlist(id_2012)
 n_2012 = lis_2012['tracks']['total']
@@ -92,6 +101,6 @@ while(total < num_tracks):
 
 accepted_rate = float(num_accepted)/total
 accepted_perc = accepted_rate*100
-print(str(accepted_rate)+ "% of quasi could fit in 2012")
+print(str(accepted_perc)+ "% of quasi could fit in 2012")
 for t, a in subset_list:
     print(t+" by "+a)

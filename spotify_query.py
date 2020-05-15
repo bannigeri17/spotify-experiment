@@ -226,6 +226,7 @@ class requester:
         list = self.spotify.playlist(playlist_id)
         num_tracks = list['tracks']['total']
         #print(num_tracks)
+        track_ids = []
         total = 0
         cur_offset = 0
         features_dict = copy.deepcopy(empty_feature_data_dict)
@@ -239,6 +240,7 @@ class requester:
                     track = item['track']
                     #if track is not None and 'id' in track:
                     cur_id = track['id']
+                    track_ids.append(cur_id)
                     try:
                         cur_feats = self.get_song_features(cur_id)
                         for feat in features_dict:
@@ -251,5 +253,5 @@ class requester:
             #print(features_dict)
             cur_offset += 100
 
-        return features_dict
+        return features_dict, track_ids
 

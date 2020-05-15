@@ -24,3 +24,4 @@ plt.style.use('ggplot')
 
 for key in playlist_features_data:
     generateHistDistGraph(playlist_features_data, key)
+    plt.figtext(0, 1, "Yeehaw")
