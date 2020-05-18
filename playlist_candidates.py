@@ -24,7 +24,7 @@ quasi_id = '17bwhvUEbRFXvcCVbd4nXK'                 # spotify playlist id for qu
 feature_data_2012, trax_2012 = requester.get_playlist_features_data(id_2012)    # feature data and ids for tracks already in 2012
 
 for key in feature_data_2012:
-    if key is not 'mode':
+    if key != 'mode':
         key_mean = np.mean(feature_data_2012[key])
         key_stdev = np.std(feature_data_2012[key])
         ranged_feature_dict[key] = (key_mean - key_stdev, key_mean + key_stdev)
